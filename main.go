@@ -54,7 +54,7 @@ func main() {
 		return
 	}
 
-    err = exec.Command("git", "commit", "-m", "\"" + selected + ": " + input + "\"").Run()
+    err = exec.Command("git", "commit", "-m", selected + ": " + input).Run()
 	if err != nil {
 		fmt.Printf("commit failed %v\n", err)
 		return
