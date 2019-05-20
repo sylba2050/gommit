@@ -20,7 +20,7 @@ func main() {
         "disable",
     }
 	index := -1
-	var result string
+	var selected string
 	var err error
 
 	for index < 0 {
@@ -30,17 +30,28 @@ func main() {
 			AddLabel: "Other",
 		}
 
-		index, result, err = prompt.Run()
+		index, selected, err = prompt.Run()
 
 		if index == -1 {
-			items = append(items, result)
+			items = append(items, selected)
 		}
 	}
+
+	if err != nil {
+		fmt.Printf("Select failed %v\n", err)
+		return
+	}
+
+    prompt := promptui.Prompt{
+		Label: selected,
+	}
+
+	result, err := prompt.Run()
 
 	if err != nil {
 		fmt.Printf("Prompt failed %v\n", err)
 		return
 	}
 
-	fmt.Printf("You choose %s\n", result)
+	fmt.Printf("You choose %q\n", result)
 }
