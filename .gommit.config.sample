@@ -1,0 +1,12 @@
+[
+    {"name": "feat", "description": "機能追加"},
+    {"name": "fix", "description": "バグ修正"},
+    {"name": "update", "description": "機能修正"},
+    {"name": "style", "description": "機能に影響を与えない修正"},
+    {"name": "doc", "description": "ドキュメントのみの修正"},
+    {"name": "add", "description": "新規ファイル追加"},
+    {"name": "delete", "description": "ファイル削除"},
+    {"name": "refactor", "description": "リファクタリング"},
+    {"name": "perf", "description": "性能向上"},
+    {"name": "disable", "description": "機能削除"}
+]
