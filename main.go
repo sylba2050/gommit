@@ -57,8 +57,6 @@ func main() {
 		return
 	}
 
-	fmt.Printf("You choose number %d: %s\n", i+1, prefixes[i].Name)
-
     prompt := promptui.Prompt{
 		Label: prefixes[i].Name,
 	}
