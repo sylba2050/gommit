@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+    "os/exec"
 
 	"github.com/manifoldco/promptui"
 )
@@ -46,12 +47,16 @@ func main() {
 		Label: selected,
 	}
 
-	result, err := prompt.Run()
+	input, err := prompt.Run()
 
 	if err != nil {
 		fmt.Printf("Prompt failed %v\n", err)
 		return
 	}
 
-	fmt.Printf("You choose %q\n", result)
+    err = exec.Command("git", "commit", "-m", "\"" + selected + ": " + input + "\"").Run()
+	if err != nil {
+		fmt.Printf("commit failed %v\n", err)
+		return
+	}
 }
