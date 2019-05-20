@@ -70,9 +70,9 @@ func main() {
 		return
 	}
 
-    err = exec.Command("git", "commit", "-m", prefixes[i].Name + ": " + input).Run()
+    out, err := exec.Command("git", "commit", "-m", prefixes[i].Name + ": " + input).Output()
 	if err != nil {
 		fmt.Printf("commit failed %v\n", err)
-		return
 	}
+    fmt.Printf("%s", out)
 }
