@@ -2,49 +2,65 @@ package main
 
 import (
 	"fmt"
+	"strings"
     "os/exec"
 
 	"github.com/manifoldco/promptui"
 )
 
+type prefix struct {
+	Name     string
+	Description string
+}
+
 func main() {
-	items := []string{
-        "feat",
-        "fix",
-        "update",
-        "style",
-        "doc",
-        "add",
-        "delete",
-        "refactor",
-        "perf",
-        "disable",
-    }
-	index := -1
-	var selected string
-	var err error
-
-	for index < 0 {
-		prompt := promptui.SelectWithAdd{
-			Label:    "Select Prefix",
-			Items:    items,
-			AddLabel: "Other",
-		}
-
-		index, selected, err = prompt.Run()
-
-		if index == -1 {
-			items = append(items, selected)
-		}
+	prefixes := []prefix{
+		{Name: "feat", Description: "機能追加"},
+		{Name: "fix", Description: "バグ修正"},
+		{Name: "update", Description: "機能修正"},
+		{Name: "style", Description: "機能に影響を与えない修正"},
+		{Name: "doc", Description: "ドキュメントのみの修正"},
+		{Name: "add", Description: "新規ファイル追加"},
+		{Name: "delete", Description: "ファイル削除"},
+		{Name: "refactor", Description: "リファクタリング"},
+		{Name: "perf", Description: "性能向上"},
+		{Name: "disable", Description: "機能削除"},
 	}
 
+	templates := &promptui.SelectTemplates{
+		Label:    "{{ . }}?",
+		Active:   "{{ .Name | red }} {{ (.Description) | faint }}",
+		Inactive: "{{ .Name | cyan }} {{ (.Description)| faint }}",
+		Selected: "{{ .Name | cyan }}",
+	}
+
+	searcher := func(input string, index int) bool {
+		pepper := prefixes[index]
+		name := strings.Replace(strings.ToLower(pepper.Name), " ", "", -1)
+		input = strings.Replace(strings.ToLower(input), " ", "", -1)
+
+		return strings.Contains(name, input)
+	}
+
+	selectPrompt := promptui.Select{
+		Label:     "Select Prefix",
+		Items:     prefixes,
+		Templates: templates,
+		Size:      4,
+		Searcher:  searcher,
+	}
+
+	i, _, err := selectPrompt.Run()
+
 	if err != nil {
-		fmt.Printf("Select failed %v\n", err)
+		fmt.Printf("Prompt failed %v\n", err)
 		return
 	}
 
+	fmt.Printf("You choose number %d: %s\n", i+1, prefixes[i].Name)
+
     prompt := promptui.Prompt{
-		Label: selected,
+		Label: prefixes[i].Name,
 	}
 
 	input, err := prompt.Run()
@@ -54,7 +70,7 @@ func main() {
 		return
 	}
 
-    err = exec.Command("git", "commit", "-m", selected + ": " + input).Run()
+    err = exec.Command("git", "commit", "-m", prefixes[i].Name + ": " + input).Run()
 	if err != nil {
 		fmt.Printf("commit failed %v\n", err)
 		return
