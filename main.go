@@ -11,6 +11,7 @@ import (
 )
 
 func main() {
+	settings.GetSettings()
 	prefixes := settings.GetSettings()
 	templates := &promptui.SelectTemplates{
 		Label:    "{{ . }}?",
