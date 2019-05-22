@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+    "os"
     "os/exec"
 
 	"github.com/manifoldco/promptui"
@@ -43,7 +44,7 @@ func main() {
 		return
 	}
 
-    m := args.Args()
+    m := args.Args(os.Args)
     var commitMessage string
 
     if *m == "" {
