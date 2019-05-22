@@ -17,5 +17,5 @@ func Args(args []string) *string {
 		os.Exit(1)
 	}
 
-    return m
+	return m
 }
