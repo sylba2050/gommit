@@ -8,6 +8,7 @@ import (
 	"github.com/manifoldco/promptui"
 
     "./settings"
+    "./args"
 )
 
 func main() {
@@ -42,18 +43,25 @@ func main() {
 		return
 	}
 
-    prompt := promptui.Prompt{
-		Label: prefixes[i].Name,
-	}
+    m := args.Args()
+    var commitMessage string
 
-	input, err := prompt.Run()
+    if *m == "" {
+        prompt := promptui.Prompt{
+            Label: prefixes[i].Name,
+        }
 
-	if err != nil {
-		fmt.Printf("Prompt failed %v\n", err)
-		return
-	}
+        commitMessage, err = prompt.Run()
 
-    out, err := exec.Command("git", "commit", "-m", prefixes[i].Name + ": " + input).Output()
+        if err != nil {
+            fmt.Printf("Prompt failed %v\n", err)
+            return
+        }
+    } else {
+        commitMessage = *m
+    }
+
+    out, err := exec.Command("git", "commit", "-m", prefixes[i].Name + ": " + commitMessage).Output()
 	if err != nil {
 		fmt.Printf("commit failed %v\n", err)
 	}
