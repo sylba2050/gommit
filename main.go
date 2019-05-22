@@ -1,12 +1,12 @@
 package main
 
 import (
-	"fmt"
-	"strings"
+    "fmt"
+    "strings"
     "os"
     "os/exec"
 
-	"github.com/manifoldco/promptui"
+    "github.com/manifoldco/promptui"
 
     "./settings"
     "./args"
@@ -63,8 +63,8 @@ func main() {
     }
 
     out, err := exec.Command("git", "commit", "-m", prefixes[i].Name + ": " + commitMessage).Output()
-	if err != nil {
-		fmt.Printf("commit failed %v\n", err)
-	}
+    if err != nil {
+        fmt.Printf("commit failed %v\n", err)
+    }
     fmt.Printf("%s", out)
 }
