@@ -8,8 +8,8 @@ import (
 
 	"github.com/manifoldco/promptui"
 
-	"./args"
-	"./settings"
+	"github.com/sylba2050/gommit/args"
+	"github.com/sylba2050/gommit/settings"
 )
 
 func main() {
